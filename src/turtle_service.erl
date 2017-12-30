@@ -55,8 +55,12 @@ start_link(#{ name := Name } = Conf) ->
 %% </dl>
 child_spec(#{ name := Name } = Conf) ->
     validate_config(Conf),
-    {Name, {?MODULE, start_link, [Conf]},
-       permanent, infinity, supervisor, [?MODULE]}.
+    #{ name => Name
+     , start => {?MODULE, start_link, [Conf]}
+     , restart => permanent
+     , shutdown => infinity
+     , type => supervisor
+     , modules => [?MODULE]}.
 
 %%====================================================================
 %% Supervisor callbacks

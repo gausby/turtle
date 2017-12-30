@@ -63,8 +63,12 @@
 %% The options are is as in {@link start_link/4}
 %% @end
 child_spec(Name, Conn, Decls, Options) ->
-    {Name, {?MODULE, start_link, [Name, Conn, Decls, Options]},
-        permanent, 5000, worker, [?MODULE]}.
+    #{ name => Name
+     , start => {?MODULE, start_link, [Name, Conn, Decls, Options]}
+     , restart => permanent
+     , shutdown => 5000
+     , type => worker
+     , modules => [?MODULE]}.
 
 %% @doc Start a new publication worker
 %%
